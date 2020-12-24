@@ -29,7 +29,7 @@
               </ul>
               <div class="form-inline my-2 my-lg-0">
               <button name="" id="" class="btn  btn-outline-success my-2 my-sm-0 mr-3"  role="button" data-toggle="modal" data-target="#exampleModal">Sign up</button>
-              <a name="" id="" class="btn  btn-outline-success my-2 my-sm-0 mr-3" href="login.php" role="button" >Log in</a>
+              <a name="" id="" class="btn  btn-outline-success my-2 my-sm-0 mr-3" href="PHPmailer.php" role="button" >Log in</a>
             </div>
           </div>
       </nav>

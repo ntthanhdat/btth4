@@ -35,14 +35,32 @@ $errors = array(); // Initialize an error array. #2
     
     if (empty($errors)) {
     //hashing the password
-    $hash_pass= password_hash($password1, PASSWORD_DEFAULT); #hash not work yet
+    $hash= password_hash($password1, PASSWORD_DEFAULT); #hash work ok
     //execute query
-    print_r($hash_pass);
-    echo $hash_pass;
     $sql="insert into users(first_name, last_name, email, password, registration_date)
-    VALUES ('$first_name','$last_name','$email', '$password1', CURRENT_DATE)";
+    VALUES ('$first_name','$last_name','$email', '$hash', CURRENT_DATE)";
     mysqli_set_charset($conn,'UTF8');
      if(mysqli_query($conn,$sql)){
+        require 'mailer/PHPMailerAutoload.php';  
+        $mail = new PHPMailer(true);
+        $mail->SMTPDebug = 3;                                  // Enable verbose debug output  
+        $mail->isSMTP();                                       // Set mailer to use SMTP  
+        $mail->Host = 'smtp.gmail.com;';                       // Specify main and backup SMTP servers  
+        $mail->SMTPAuth = true;                                // Enable SMTP authentication  
+        $mail->Username = 'nukehanda.juunirippou@gmail.com';               // your SMTP username  
+        $mail->Password = 'nttd12122k';                      // your SMTP password  
+        $mail->SMTPSecure = 'tls';                             // Enable TLS encryption, `ssl` also accepted  
+        $mail->Port = 587;                                     // TCP port to connect to  
+        $mail->setFrom('nukehanda.juunirippou@gmail.com', 'Nuke Handa');  
+        $mail->addAddress('thanhdatnguyenthe2k@gmail.com');                             // set your BCC email address  
+        $mail->isHTML(true);                                   // Set email format to HTML  
+        $mail->Subject = 'How to send email from localhost using php with mysqli';  
+        $mail->Body  = 'This is the HTML message body <b>in bold!</b>';  
+        if($mail->send()) {  
+        echo 'Message has been sent';  
+        } else {  
+        echo 'Message could not be sent';  
+        }  
         header("Location:index.php");
      }
      else{
@@ -50,6 +68,7 @@ $errors = array(); // Initialize an error array. #2
         header("Location:error.php?error=$e");
      }
     }
+
 
 
 
