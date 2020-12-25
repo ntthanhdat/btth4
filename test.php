@@ -1,20 +1,11 @@
-<?php
-include('config.php');
-$id=$_GET['userid'];
-$code=$_GET['code'];
-$sql1="select * from users where userid='$id'";
-$result=mysqli_query($conn,$sql1);
-if(mysqli_num_rows($result)>0){
-    $user=mysqli_fetch_assoc($result);
-}  
-if($user['actiovation_code']==$code){
-    $sql="update users set status =1 where userid='$id'";
-    $result=mysqli_query($conn,$sql);
-    if(mysqli_num_rows($result)>0){
-        header('Location:index.php');
-    }  
-
+<?php      
+include('header.php');
+session_start() ;
+if ( !isset( $_SESSION[ 'userid' ] ) ){
+    echo "chua co session";
+}else{
+    include('navbar-user.php');
+    echo 'da co session;';
 }
-
-
-?>
+include('footer.php');
+?> 
