@@ -36,11 +36,19 @@ $errors = array(); // Initialize an error array. #2
     if (empty($errors)) {
     //hashing the password
     $hash= password_hash($password1, PASSWORD_DEFAULT); #hash work ok
+    //generate randomstrin
+    include('random.php');
+    $randstring=generateRandomString();
     //execute query
-    $sql="insert into users(first_name, last_name, email, password, registration_date)
-    VALUES ('$first_name','$last_name','$email', '$hash', CURRENT_DATE)";
+    $sql="insert into users(first_name, last_name, email, password, registration_date, activation_code)
+    VALUES ('$first_name','$last_name','$email', '$hash', CURRENT_DATE, '$randstring')";
     mysqli_set_charset($conn,'UTF8');
      if(mysqli_query($conn,$sql)){
+        $sql1="select userid from users where email='$email'";
+        $result=mysqli_query($conn,$sql1);
+        if(mysqli_num_rows($result)>0){
+            $id=mysqli_fetch_assoc($result);
+        }   
         require 'mailer/PHPMailerAutoload.php';  
         $mail = new PHPMailer(true);
         $mail->SMTPDebug = 3;                                  // Enable verbose debug output  
@@ -52,10 +60,10 @@ $errors = array(); // Initialize an error array. #2
         $mail->SMTPSecure = 'tls';                             // Enable TLS encryption, `ssl` also accepted  
         $mail->Port = 587;                                     // TCP port to connect to  
         $mail->setFrom('nukehanda.juunirippou@gmail.com', 'Nuke Handa');  
-        $mail->addAddress('thanhdatnguyenthe2k@gmail.com');                             // set your BCC email address  
+        $mail->addAddress($email);                             // set your BCC email address  
         $mail->isHTML(true);                                   // Set email format to HTML  
         $mail->Subject = 'How to send email from localhost using php with mysqli';  
-        $mail->Body  = 'This is the HTML message body <b>in bold!</b>';  
+        $mail->Body  = 'This is the HTML message body <b>in bold!</b> click here http://localhost/prac-login-regis/activate.php?userid='.$id['userid'].'&code='.$randstring.' ';  
         if($mail->send()) {  
         echo 'Message has been sent';  
         } else {  
@@ -67,7 +75,14 @@ $errors = array(); // Initialize an error array. #2
          $e= mysqli_error($conn);
         header("Location:error.php?error=$e");
      }
-    }
+    }else { // Report the errors.                                            #13
+		$errorstring = "Error! <br /> The following error(s) occurred:<br>";
+		foreach ($errors as $msg) { // Print each error.
+			$errorstring .= " - $msg<br>";
+		}
+		$errorstring .= "Please try again.<br>";
+        header("Location:error.php?error=$errorstring");
+		}// End of if (empty($errors)) IF.
 
 
 
