@@ -1,5 +1,5 @@
 <?php include('header.php')?>
-<!-- Nav tabs -->
+
        
 
         <!-- xac minh dang nhap -->
@@ -8,7 +8,12 @@ session_start() ;
 if ( !isset( $_SESSION[ 'userid' ] ) ){
     include('navbar-login.php');
 }else{
-    include('navbar-user.php');
+    if($_SESSION['role']==1){
+        include('navbar-admin.php');
+    }else{
+        include('navbar-user.php');
+    }
+    
 }
 ?> 
 <?php include('footer.php')?>
