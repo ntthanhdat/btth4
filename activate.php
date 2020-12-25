@@ -7,12 +7,15 @@ $result=mysqli_query($conn,$sql1);
 if(mysqli_num_rows($result)>0){
     $user=mysqli_fetch_assoc($result);
 }  
-if($user['actiovation_code']==$code){
+if($user['activation_code']==$code){
     $sql="update users set status =1 where userid='$id'";
     $result=mysqli_query($conn,$sql);
-    if(mysqli_num_rows($result)>0){
+    if($result){
         header('Location:index.php');
-    }  
+    } 
+    else{
+        echo "loi";
+    }
 
 }
 
