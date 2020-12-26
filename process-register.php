@@ -13,7 +13,7 @@ $errors = array(); // Initialize an error array. #2
 		$errors[] = 'You forgot to enter your last name.';
 	}
 	// Check for an email address:
-		$email = trim($_POST[email]);
+		$email = trim($_POST['email']);
 	if (empty($email)) {
 		$errors[] = 'You forgot to enter your email address.';
     }

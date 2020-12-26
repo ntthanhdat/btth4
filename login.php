@@ -1,6 +1,6 @@
 <?php
 include('config.php');
-$email = trim($_POST[email]);
+$email = trim($_POST['email']);
 if (empty($email)) {
     $errors[] = 'You forgot to enter your email address.';
 }
@@ -23,7 +23,7 @@ if (empty($errors)){
         session_start();								
         // Ensure that the user level is an integer. 
         $_SESSION[ 'userid' ] = $user['userid'];
-        $_SESSION[ 'user_name' ] = $user[email] ;
+        $_SESSION[ 'user_name' ] = $user['email'] ;
         $_SESSION[ 'role' ] = $user['user_level'];
         header ( 'Location: index.php' ) ;
     }

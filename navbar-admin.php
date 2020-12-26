@@ -21,7 +21,7 @@
                 <div class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="text-white pr-2">Wellcom <?php echo $_SESSION[ 'user_name' ] ?> </span></a>
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
-                          <a class="dropdown-item" href="#">Your profile</a>
+                          <a class="dropdown-item" href="profile.php">Your profile</a>
                           <a class="dropdown-item" href="admin/index.php">Administration</a>
                           <a class="dropdown-item" href="#">Setting</a>
                       </div>

@@ -79,7 +79,7 @@ if ( !isset( $_SESSION[ 'userid' ] ) ){
                           
                           </tr>
                       </tbody>
-              </table>
+              </table> 
               </div>
           </div>
       </div>
