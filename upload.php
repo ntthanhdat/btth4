@@ -1,61 +1,23 @@
 <?php
-  
-  try {
-    $conn = new PDO("mysql:host=Localhost;dbname=blogth4", 'root', '');
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo "Database connected successfully";
-} catch(PDOException $e) {
-    echo "Database connection failed: " . $e->getMessage();
+
+if(isset($_POST['fileUpload'])){
+    $file=$_POST['fileUpload'];
+    include('config.php');
+    session_start();
+    $id=$_SESSION['userid'];
+    $sql="update users set avatar=LOAD_FILE('$file') where userid=$id";
+    echo $sql;
+    mysqli_set_charset($conn,'UTF8');
+    if(mysqli_query($conn,$sql)){
+        header("Location:index.php");
+        }
+        else{
+            $e= mysqli_error($conn);
+        header("Location:error.php?error=$e");
+        }
+
+}else{
+    echo "no file choosen";
 }
- 
-  if(isset($_POST["submit"])) {
-      // Set image placement folder
-      $target_dir = "img_dir/";
-      // Get file path
-      $target_file = $target_dir . basename($_FILES["fileUpload"]["name"]);
-      // Get file extension
-      $imageExt = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-      // Allowed file types
-      $allowd_file_ext = array("jpg", "jpeg", "png");
-      
 
-      if (!file_exists($_FILES["fileUpload"]["tmp_name"])) {
-         $resMessage = array(
-             "status" => "alert-danger",
-             "message" => "Select image to upload."
-         );
-      } else if (!in_array($imageExt, $allowd_file_ext)) {
-          $resMessage = array(
-              "status" => "alert-danger",
-              "message" => "Allowed file formats .jpg, .jpeg and .png."
-          );            
-      } else if ($_FILES["fileUpload"]["size"] > 2097152) {
-          $resMessage = array(
-              "status" => "alert-danger",
-              "message" => "File is too large. File size should be less than 2 megabytes."
-          );
-      } else if (file_exists($target_file)) {
-          $resMessage = array(
-              "status" => "alert-danger",
-              "message" => "File already exists."
-          );
-      } else {
-          if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
-              $sql = "INSERT INTO users (avatar) VALUES ('$target_file')";
-              $stmt = $conn->prepare($sql);
-               if($stmt->execute()){
-                  $resMessage = array(
-                      "status" => "alert-success",
-                      "message" => "Image uploaded successfully."
-                  );                 
-               }
-          } else {
-              $resMessage = array(
-                  "status" => "alert-danger",
-                  "message" => "Image coudn't be uploaded."
-              );
-          }
-      }
-
-  }
+?>

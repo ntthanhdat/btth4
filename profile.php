@@ -30,6 +30,12 @@ $result=mysqli_query($conn,$sql);
             <h3> <?php echo $post['first_name'].' '.$post['last_name']  ?></h3>
             <h6>Email: <?php echo $post['email'] ?></h6>
             <h6>Phone: <?php echo $post['phone'] ?></h6>
+            <h6>Address1: <?php echo $post['address1'] ?></h6>
+            <h6>Address2: <?php echo $post['address2'] ?></h6>
+            <h6>City: <?php echo $post['city'] ?></h6>
+            <h6>State country: <?php echo $post['state_country'] ?></h6>
+            <h6>Zipcode/Postcode: <?php echo $post['zcode_pcode'] ?></h6>
+            <h6>Avartar: <?php echo $post['avatar'] ?></h6>
         </div>
         
         <div class="col-sm-4">
@@ -40,14 +46,16 @@ $result=mysqli_query($conn,$sql);
                 </a>
                 <ul class="dropdown-menu">
                     
-                <button name="" id="" class="btn  btn-outline-success my-2 my-sm-0 mr-3"  role="button" data-toggle="modal" data-target="#editModal">Edit profile</button>
-                    <button name="" id="" class="btn  btn-outline-success my-2 my-sm-0 mr-3"  role="button" data-toggle="modal" data-target="#uploadModal">Upload avatar</button>
+                <button name="" id="" class="btn  btn-outline-success mt-2"  role="button" data-toggle="modal" data-target="#editModal">Edit profile</button>
+                <button name="" id="" class="btn  btn-outline-success mt-2"  role="button" data-toggle="modal" data-target="#uploadModal">Upload avatar</button>
                 </ul>
             </div>
         </div>
 
 </div>
 </div> 
+
+<!-- upload avatar -->
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -57,7 +65,7 @@ $result=mysqli_query($conn,$sql);
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                <form action="upload.php" enctype="multipart/form-data" method="POST"">
+                <form action="upload.php"  method="POST">
                     <div class="modal-body">
                         <div class="form-group">
                           <input type="file" name="fileUpload" id="">
