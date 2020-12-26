@@ -1,15 +1,26 @@
 <?php
-include('config.php');
-session_start();
-$id=$_SESSION['userid'];
-$sql="update users set avatar=LOAD_FILE('B:\xampp\htdocs\onmifood\image\customer-3.jpg') where userid=$id";
-mysqli_set_charset($conn,'UTF8');
- if(mysqli_query($conn,$sql)){
-     header("Location:index.php");
-    }
-    else{
-        $e= mysqli_error($conn);
-       header("Location:error.php?error=$e");
-    }
+$target_dir = "uploads/";
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+  if($check !== false) {
+    echo "File is an image - " . $check["mime"] . ".";
+    $uploadOk = 1;
+  } else {
+    echo "File is not an image.";
+    $uploadOk = 0;
+  }
+  echo "ahihi";
+}
+$data=file_get_contents($_FILE['fileToUpload']['tmp_name']);
+
+    include('config.php');
+    session_start();
+    $id=$_SESSION['userid'];
+    $sql="update users set avatar=$data where userid=$id";
+    echo $sql;
 
 ?>

@@ -65,10 +65,10 @@ $result=mysqli_query($conn,$sql);
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                <form action="upload.php"  method="POST">
+                <form action="test2.php"  method="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
-                          <input type="file" name="fileUpload" id="">
+                          <input type="file" name="fileToUpload" id="">
                         </div>
                     </div>
                     <div class="modal-footer">
