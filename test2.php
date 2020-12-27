@@ -1,26 +1,15 @@
 <?php
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-  if($check !== false) {
-    echo "File is an image - " . $check["mime"] . ".";
-    $uploadOk = 1;
-  } else {
-    echo "File is not an image.";
-    $uploadOk = 0;
-  }
-  echo "ahihi";
-}
-$data=file_get_contents($_FILE['fileToUpload']['tmp_name']);
-
+ $link =  realpath($_FILES["file"]["tmp_name"]);
+    //$link=$_POST['file'];
     include('config.php');
     session_start();
     $id=$_SESSION['userid'];
-    $sql="update users set avatar=$data where userid=$id";
-    echo $sql;
+    $sql="update users set avatar=LOAD_FILE('$link')  where userid=$id ";
+    $sql = str_replace("\\", "/", $sql);
+    //echo $sql;
+    if(mysqli_query($conn,$sql)){
+      header("Location:index.php");
+      }
+    // update users set avatar=LOAD_FILE('B:/xampp/htdocs/onmifood/image/customer-3.jpg')  where userid=9 //okela
 
 ?>

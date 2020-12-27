@@ -1,23 +1,15 @@
 <?php
-
-if(isset($_POST['fileUpload'])){
-    $file=$_POST['fileUpload'];
+ $link =  realpath($_FILES["file"]["tmp_name"]);
+    //$link=$_POST['file'];
     include('config.php');
     session_start();
     $id=$_SESSION['userid'];
-    $sql="update users set avatar=LOAD_FILE('$file') where userid=$id";
-    echo $sql;
-    mysqli_set_charset($conn,'UTF8');
+    $sql="update users set avatar=LOAD_FILE('$link')  where userid=$id ";
+    $sql = str_replace("\\", "/", $sql);
+    //echo $sql;
     if(mysqli_query($conn,$sql)){
-        header("Location:index.php");
-        }
-        else{
-            $e= mysqli_error($conn);
-        header("Location:error.php?error=$e");
-        }
-
-}else{
-    echo "no file choosen";
-}
+      header("Location:index.php");
+      }
+    // update users set avatar=LOAD_FILE('B:/xampp/htdocs/onmifood/image/customer-3.jpg')  where userid=9 //okela
 
 ?>
