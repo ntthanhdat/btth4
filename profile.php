@@ -23,9 +23,20 @@ $result=mysqli_query($conn,$sql);
 }
 ?>
 <div class="clearfix container pt-3">
+    
 	<div class="row">
         
-        
+        <div class="col-sm-2">
+            <?php
+            $id=$_SESSION['userid'];
+            $sql="select * from users where userid=$id ";
+            $result=mysqli_query($conn,$sql);
+              $post=mysqli_fetch_assoc($result);
+            echo '<td>' .
+              '<img src = "data:image/png;base64,' . base64_encode($post['avatar']) . '" width = "150px" height = "150px"/>'
+              . '</td>';
+             ?>
+        </div>
         <div class="col-sm-8">
             <h3> <?php echo $post['first_name'].' '.$post['last_name']  ?></h3>
             <h6>Email: <?php echo $post['email'] ?></h6>
@@ -35,10 +46,10 @@ $result=mysqli_query($conn,$sql);
             <h6>City: <?php echo $post['city'] ?></h6>
             <h6>State country: <?php echo $post['state_country'] ?></h6>
             <h6>Zipcode/Postcode: <?php echo $post['zcode_pcode'] ?></h6>
-            <h6>Avartar: <?php echo $post['avatar'] ?></h6>
+            
         </div>
         
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             <div class="btn-group">
                 <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
                     Change 
