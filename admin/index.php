@@ -12,20 +12,41 @@ if ( !isset( $_SESSION[ 'userid' ] ) ){
     
 }
 ?> 
-<div class="container pt-3">
+<div class="container pt-1">
           <div class="row">
               <div class="col">
-              <table class="table table-striped table-inverse table-responsive">
-                <?php include('config.php');
-                   
-                    $sql="select * from users";
-                        mysqli_set_charset($conn,'UTF8');
-                        $result=mysqli_query($conn,$sql);
-                        if(mysqli_num_rows($result)>0){
-                            $post_list=mysqli_fetch_all($result);
-                        }
-                    ?>
-                  <thead class="thead-inverse">
+    <?php
+
+        if (isset($_GET['pageno'])) {
+            $pageno = $_GET['pageno'];
+        } else {
+            $pageno = 1;
+        }
+        $no_of_records_per_page = 20;
+        $offset = ($pageno-1) * $no_of_records_per_page;
+
+        $conn=mysqli_connect( 'localhost', 'root', '', 'blogth4' );
+        // Check connection
+        if (mysqli_connect_errno()){
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            die();
+        }
+
+        $total_pages_sql = "SELECT COUNT(*) FROM users";
+        $result = mysqli_query($conn,$total_pages_sql);
+        $total_rows = mysqli_fetch_array($result)[0];
+        $total_pages = ceil($total_rows / $no_of_records_per_page);
+
+        $sql = "SELECT * FROM users LIMIT $offset, $no_of_records_per_page";
+        $result=mysqli_query($conn,$sql);
+        if(mysqli_num_rows($result)>0){
+            $row=mysqli_fetch_all($result);
+        }
+        mysqli_close($conn);
+    ?>
+    <table class="table table-striped table-inverse table-responsive">
+               
+    <thead class="thead-inverse">
                       <tr>
                           <th>User ID</th>
                           <th>First name</th>
@@ -51,7 +72,7 @@ if ( !isset( $_SESSION[ 'userid' ] ) ){
                       </thead>
                       <tbody>
                           <?php 
-                          foreach($post_list as $post){
+                          foreach($row as $post){
                               echo '<tr>';
                               echo '<td scope="row">'.$post[0].'</td>';
                               echo '<td scope="row">'.$post[1].'</td>';
@@ -80,6 +101,21 @@ if ( !isset( $_SESSION[ 'userid' ] ) ){
                           </tr>
                       </tbody>
               </table> 
+              <div class="d-flex justify-content-center">
+              <nav aria-label="Page navigation example" >
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
+        <li class="page-item <?php if($pageno <= 1){ echo 'disabled'; } ?>">
+            <a class="page-link" href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
+        </li>
+        <li class="page-item <?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+            <a class="page-link" href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
+    
+              </div>
+</body>
+</html>
               </div>
           </div>
       </div>
