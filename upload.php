@@ -8,7 +8,7 @@
     $sql = str_replace("\\", "/", $sql);
     //echo $sql;
     if(mysqli_query($conn,$sql)){
-      header("Location:index.php");
+      header("Location:profile.php");
       }
     // update users set avatar=LOAD_FILE('B:/xampp/htdocs/onmifood/image/customer-3.jpg')  where userid=9 //okela
 

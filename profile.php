@@ -33,7 +33,7 @@ $result=mysqli_query($conn,$sql);
             $result=mysqli_query($conn,$sql);
               $post=mysqli_fetch_assoc($result);
             echo '<td>' .
-              '<img src = "data:image/png;base64,' . base64_encode($post['avatar']) . '" width = "150px" height = "150px"/>'
+              '<img src = "data:image/png;base64,' . base64_encode($post['avatar']) . '" width = "150px" height = "180px"/>'
               . '</td>';
              ?>
         </div>
@@ -46,7 +46,9 @@ $result=mysqli_query($conn,$sql);
             <h6>City: <?php echo $post['city'] ?></h6>
             <h6>State country: <?php echo $post['state_country'] ?></h6>
             <h6>Zipcode/Postcode: <?php echo $post['zcode_pcode'] ?></h6>
-            
+            <h6> Registration date: <?php echo $post['registration_date'] ?> </h6>
+            <h6> Class: <?php echo $post['class'] ?> </h6>
+            <h6> Paid: <?php echo $post['paid'] ?> </h6>  
         </div>
         
         <div class="col-sm-2">
@@ -79,8 +81,11 @@ $result=mysqli_query($conn,$sql);
                 <form action="upload.php"  method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
-                          <input type="file" name="file" id="">
+                        <span class="btn btn-default btn-file">
+                          <input type="file" name="file" id="imgInp">
+                          </span>
                         </div>
+                        <img id='img-upload'/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -130,4 +135,42 @@ $result=mysqli_query($conn,$sql);
             </div>
         </div>
         </div>
+    
+        <script>
+  $(document).ready( function() {
+    	$(document).on('change', '.btn-file :file', function() {
+		var input = $(this),
+			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+		input.trigger('fileselect', [label]);
+		});
+
+		$('.btn-file :file').on('fileselect', function(event, label) {
+		    
+		    var input = $(this).parents('.input-group').find(':text'),
+		        log = label;
+		    
+		    if( input.length ) {
+		        input.val(log);
+		    } else {
+		        if( log ) alert(log);
+		    }
+	    
+		});
+		function readURL(input) {
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        
+		        reader.onload = function (e) {
+		            $('#img-upload').attr('src', e.target.result);
+		        }
+		        
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
+		$("#imgInp").change(function(){
+		    readURL(this);
+		}); 	
+	});
+ </script>
 <?php include('footer.php')?>
