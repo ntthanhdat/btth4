@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <title>Pagination</title>
     <!-- Bootstrap CDN -->
@@ -6,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
     <?php
 
@@ -37,33 +39,33 @@
         mysqli_close($conn);
     ?>
     <table class="table table-striped table-inverse table-responsive">
-               
-    <thead class="thead-inverse">
-                      <tr>
-                          <th>User ID</th>
-                          <th>First name</th>
-                          <th>Last Name</th>
-                          <th>Email</th>
-                          <th>Password</th>
-                          <th>Registration date</th>
-                          <th>User level</th>
-                          <th>Class</th>
-                          <th>Adress 1</th>
-                          <th>Adress 2</th>
-                          <th>City</th>
-                          <th>State country</th>
-                          <th>Pcode</th>
-                          <th>Phone</th>
-                          <th>Paid</th>
-                          <th>Status</th>
-                          <th>Active code</th>
-                          <th>Details</th>
-                          <th>Edit</th>
-                          <th>Delete</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                          <?php 
+
+        <thead class="thead-inverse">
+            <tr>
+                <th>User ID</th>
+                <th>First name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Registration date</th>
+                <th>User level</th>
+                <th>Class</th>
+                <th>Adress 1</th>
+                <th>Adress 2</th>
+                <th>City</th>
+                <th>State country</th>
+                <th>Pcode</th>
+                <th>Phone</th>
+                <th>Paid</th>
+                <th>Status</th>
+                <th>Active code</th>
+                <th>Details</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
                           foreach($row as $post){
                               echo '<tr>';
                               echo '<td scope="row">'.$post[0].'</td>';
@@ -89,10 +91,10 @@
                               echo '</tr>';
                           }
                           ?>
-                          
-                          </tr>
-                      </tbody>
-              </table> 
+
+            </tr>
+        </tbody>
+    </table>
     <ul class="pagination">
         <li><a href="?pageno=1">First</a></li>
         <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
@@ -104,4 +106,5 @@
         <li><a href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
     </ul>
 </body>
+
 </html>
